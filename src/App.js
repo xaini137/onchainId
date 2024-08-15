@@ -6,7 +6,7 @@ import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage
 import { auth, database, storage } from './firebase';
 import Loginpage from './components/Loginpage';
 import Signuppage from './components/SingUppage';
-import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useNavigate } from "react-router-dom";
 import Admin from './components/admin';
 import Navbar from './components/Navbar';
 import { checkIfAdmin } from './utils/adminCheck';
@@ -24,7 +24,8 @@ function App() {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [url, setUrl] = useState('');
-  const history = useHistory();
+  // const history = useHistory();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -35,13 +36,14 @@ function App() {
       } else {
         setUser(null);
         setIsAdmin(false);
-        history.push('/signup');
+        navigate('/signup');
+        // history.push('/signup');
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [history]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
