@@ -125,9 +125,9 @@ const UserTable = () => {
                             <td>
     <div className="action-buttons">
         {user.status === 1 ? (
-            <span className="created">ID Created</span>
+            <span className="created">Accepted</span>
         ) : user.status === 2 ? (
-            <span className="rejected">ID Rejected</span>
+            <span className="rejected">Rejected</span>
         ) : (
             <>
                 <button
