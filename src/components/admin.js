@@ -86,7 +86,7 @@ export default function Admin() {
         </select>
       </div> */}
       
-      <div>
+      {/* <div>
         <h2>Manage Admins</h2>
         <label className="label">Add Admin (Email)</label>
         <input
@@ -97,10 +97,10 @@ export default function Admin() {
           onChange={handleAdminInputChange}
         />
         <button onClick={addAdminToFirebase}>Add Admin</button>
-      </div>
+      </div> */}
       
       <div>
-        <label className="label">Admin List</label>
+        {/* <label className="label">Admin List</label> */}
         <ul>
           {admins.map((admin) => (
             <li key={admin.key}>{admin.value}</li>
