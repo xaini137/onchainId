@@ -135,6 +135,15 @@
   padding: 8px;
   border-radius: 5px;
 }
+
+.rejected{
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 5px;
+}
+
 /* userListShow.css */
 .loader-container {
   position: fixed;

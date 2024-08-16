@@ -120,30 +120,32 @@ const UserTable = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                             <td>{user.metaMaskAddress}</td>
-                            <td>{user.onchsinid || "Fetching..."}</td>
+                            <td>{user.onchsinid || "--"}</td>
                             <td>{user.documentDetail}</td>
                             <td>
-                                <div className="action-buttons">
-                                    {user.status !== 1 ? (
-                                        <>
-                                            <button
-                                                className="accept-button"
-                                                onClick={() => handleStatusChange(user.id, 1)}
-                                            >
-                                                Accept
-                                            </button>
-                                            <button
-                                                className="reject-button"
-                                                onClick={() => handleRejectClick(user)}
-                                            >
-                                                Reject
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <span className="created"> ID Created</span>
-                                    )}
-                                </div>
-                            </td>
+    <div className="action-buttons">
+        {user.status === 1 ? (
+            <span className="created">ID Created</span>
+        ) : user.status === 2 ? (
+            <span className="rejected">ID Rejected</span>
+        ) : (
+            <>
+                <button
+                    className="accept-button"
+                    onClick={() => handleStatusChange(user.id, 1)}
+                >
+                    Accept
+                </button>
+                <button
+                    className="reject-button"
+                    onClick={() => handleRejectClick(user)}
+                >
+                    Reject
+                </button>
+            </>
+        )}
+    </div>
+</td>
                         </tr>
                     ))}
                 </tbody>
