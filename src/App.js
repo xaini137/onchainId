@@ -35,13 +35,14 @@ function App() {
       } else {
         setUser(null);
         setIsAdmin(false);
-        history.push('/signup');
+        // history.push('/signup'); // Using history.push in v5
       }
       setLoading(false);
     });
-
+  
     return () => unsubscribe();
-  }, []);
+  }, [history]);
+  
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
