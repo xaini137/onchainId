@@ -102,7 +102,7 @@ const UserTable = () => {
 
     return (
         <div className={`user-table-container ${loading ? 'blurred-content' : ''}`}>
-            <h2>All Users</h2>
+            <h2>All Investor</h2>
             <table className="user-table">
                 <thead>
                     <tr>

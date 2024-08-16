@@ -68,7 +68,7 @@ export default function Navbar() {
             )}
             {user && isAdmin && (
               <li className="nav-item">
-                <Link className="nav-link" to="/user-list">USER LIST</Link>
+                <Link className="nav-link" to="/user-list">INVESTOR LIST</Link>
               </li>
             )}
           </ul>
