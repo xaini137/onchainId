@@ -41,6 +41,30 @@ const factoryABI = [
 const factoryAddress = process.env.FACTORY_ADDR;
 const factoryContract = new ethers.Contract(factoryAddress, factoryABI, signer);
 
+
+app.post('/get_identity', async (req, res) => {
+    try {
+        const { userAddress } = req.body;
+console.log(userAddress , typeof userAddress );
+
+        // Check if all required fields are provided
+        if (!userAddress) {
+            return res.status(400).json({ success: false, message: "Missing required fields: userAddress and salt are required." });
+        }
+        const identityCheck = await factoryContract.getIdentity(userAddress);
+console.log(identityCheck);
+if (identityCheck === '0x0000000000000000000000000000000000000000') {
+    return res.status(200).json({ success: false });
+}
+
+// If identity exists and is not the zero address, return it
+return res.status(200).json({ success: true, message: "Identity already exists.", identity: identityCheck });
+} catch (error) {
+        console.error('Error creating identity:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 app.post('/create', async (req, res) => {
     try {
         const { userAddress, salt } = req.body;

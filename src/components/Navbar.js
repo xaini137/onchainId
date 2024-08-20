@@ -63,7 +63,12 @@ export default function Navbar() {
             )}
             {user && isAdmin && (
               <li className="nav-item">
-                <Link className="nav-link" to="/admin">ADMIN</Link>
+                <Link className="nav-link" to="/admin">ADD_ADMIN</Link>
+              </li>
+            )}
+             {user && isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/contract">ADD TOPIC</Link>
               </li>
             )}
             {user && isAdmin && (

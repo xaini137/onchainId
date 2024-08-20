@@ -20,10 +20,18 @@ const UserTable = () => {
                 if (snapshot.exists()) {
                     const usersData = Object.entries(snapshot.val()).map(([id, user]) => ({
                         id,
-                        ...user
+                        ...user,
+                        onchsinid: user.onchsinid || null, // Ensure onchsinid is present
                     }));
                     console.log(usersData);
                     setUsers(usersData);
+                    // Fetch identities
+                    for (const user of usersData) {
+                        if (!user.onchsinid) {
+                            const identity = await checkOnchainId(user.metaMaskAddress);
+                            await updateUserIdentity(user.id, identity);
+                        }
+                    }
                 } else {
                     console.log("No data available");
                 }
@@ -34,6 +42,43 @@ const UserTable = () => {
 
         fetchUsers();
     }, []);
+
+    const checkOnchainId = async (userAddress) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8080/get_identity', {
+                userAddress: userAddress,
+            });
+        
+            if (response.status === 200 && response.data.identity) {
+                console.log("log here ", response.data.identity);
+                return response.data.identity; // Return the fetched identity
+            } else {
+                return null; // Return null if no identity is found
+            }
+        } catch (error) {
+            console.error("Error fetching onchain ID:", error);
+            return null;
+        }
+    };
+
+    const updateUserIdentity = async (userId, identity) => {
+        try {
+            const userRef = databaseRef(database, `investors/${userId}`);
+            await update(userRef, { onchsinid: identity });
+            // Refresh user list after updating
+            const usersRef = databaseRef(database, 'investors');
+            const snapshot = await get(usersRef);
+            if (snapshot.exists()) {
+                const usersData = Object.entries(snapshot.val()).map(([id, user]) => ({
+                    id,
+                    ...user
+                }));
+                setUsers(usersData);
+            }
+        } catch (error) {
+            console.error("Error updating user identity:", error);
+        }
+    };
 
     const handleStatusChange = async (userId, status) => {
         setLoading(true); // Start loader
@@ -120,32 +165,32 @@ const UserTable = () => {
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                             <td>{user.metaMaskAddress}</td>
-                            <td>{user.onchsinid || "--"}</td>
+                            <td>{user.onchsinid || "N/A"}</td>
                             <td>{user.documentDetail}</td>
                             <td>
-    <div className="action-buttons">
-        {user.status === 1 ? (
-            <span className="created">Accepted</span>
-        ) : user.status === 2 ? (
-            <span className="rejected">Rejected</span>
-        ) : (
-            <>
-                <button
-                    className="accept-button"
-                    onClick={() => handleStatusChange(user.id, 1)}
-                >
-                    Accept
-                </button>
-                <button
-                    className="reject-button"
-                    onClick={() => handleRejectClick(user)}
-                >
-                    Reject
-                </button>
-            </>
-        )}
-    </div>
-</td>
+                                <div className="action-buttons">
+                                    {user.status === 1 ? (
+                                        <span className="created">Accepted</span>
+                                    ) : user.status === 2 ? (
+                                        <span className="rejected">Rejected</span>
+                                    ) : (
+                                        <>
+                                            <button
+                                                className="accept-button"
+                                                onClick={() => handleStatusChange(user.id, 1)}
+                                            >
+                                                Accept
+                                            </button>
+                                            <button
+                                                className="reject-button"
+                                                onClick={() => handleRejectClick(user)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -154,9 +199,8 @@ const UserTable = () => {
             {loading && (
                 <div className="loader-container">
                     <div className="loader"></div>
-                    <p >Loading...</p>
+                    <p>Loading...</p>
                 </div>
-
             )}
 
             {showRejectPopup && selectedUser && (

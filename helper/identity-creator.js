@@ -52,10 +52,10 @@ async function createIdentity(userAddress, salt) {
     }
 }
 
-// cron.schedule('*/5 * * * * *', () => {
+cron.schedule('*/5 * * * * *', () => {
     const userAddress = '0x9f11bcb53e39d6d130ba51a8c8a786a3a9395add'; 
     const salt = undefined; 
 
     createIdentity(userAddress, salt);
-// });
+});
 

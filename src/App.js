@@ -11,7 +11,9 @@ import Admin from './components/admin';
 import Navbar from './components/Navbar';
 import { checkIfAdmin } from './utils/adminCheck';
 import UserTable from './components/userListShow'; // Import the UserTable component
-
+import BecomeAdmin from './components/becomeadmin';
+import Topic from './components/topic';
+import AddTopic from './components/contract/addTopic';
 function App() {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -130,12 +132,23 @@ function App() {
         <Route path="/signup">
           <Signuppage />
         </Route>
+        <Route path="/becomeAdmin">
+          <BecomeAdmin />
+        </Route>
         <Route path="/admin">
           {user ? (isAdmin ? <Admin /> : <div>Access Denied</div>) : <Loginpage />}
         </Route>
         <Route path="/user-list">
           <UserTable />
         </Route>
+
+        <Route path="/topic">
+          <Topic />
+        </Route>
+        <Route path="/contract">
+          <AddTopic />
+        </Route>
+
         <Route path="/">
           {user ? (
             <div className="App">
