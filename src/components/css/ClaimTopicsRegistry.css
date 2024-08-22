@@ -1,5 +1,5 @@
 .form-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
   }
@@ -59,4 +59,13 @@
 
 .connect-metamask-button:hover {
     background-color: #0056b3;
+}
+
+/* Style for the horizontal line */
+.styled-hr {
+  border: 0;
+  height: 3px;
+
+  background: linear-gradient(to right, #c0c0c0, #e0e0e0, #c0c0c0);
+  margin: 20px 0;
 }

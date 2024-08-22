@@ -66,4 +66,15 @@
   button:hover {
     background-color: #304f8a;
   }
+  .input-group-1{
+    max-width: 1000px;
+    margin-left: 550px;
+    padding: 20px;
+  }
+
+  .note-container-1, .note-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px; /* Adjust margin as needed */
+  }
   

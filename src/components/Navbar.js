@@ -3,7 +3,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase';
 import { checkIfAdmin } from '../utils/adminCheck';
 import { Link, useHistory } from 'react-router-dom';
-
+import Topic from './topic';
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -74,6 +74,12 @@ export default function Navbar() {
             {user && isAdmin && (
               <li className="nav-item">
                 <Link className="nav-link" to="/user-list">INVESTOR LIST</Link>
+              </li>
+            )}
+             {user && isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/issuer">CLAIM ISSUER
+                </Link>
               </li>
             )}
           </ul>

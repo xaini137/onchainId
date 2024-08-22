@@ -132,6 +132,9 @@ function App() {
         <Route path="/signup">
           <Signuppage />
         </Route>
+        <Route path="/savetopic">
+          <Topic />
+        </Route>
         <Route path="/becomeAdmin">
           <BecomeAdmin />
         </Route>
