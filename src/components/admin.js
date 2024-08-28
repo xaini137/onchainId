@@ -2,14 +2,120 @@ import React, { useState, useEffect } from 'react';
 import { ref, set, push, onValue } from "firebase/database";
 import { database } from '../firebase';
 import './css/admin.css';
+import { ethers } from 'ethers';
 
 export default function Admin() {
   const [topics, setTopics] = useState([]);
   const [topic, setTopic] = useState('');
   const [hexcode, setHexcode] = useState('');
-
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [whitelistAddress, setWhitelistAddress] = useState("");
+  const [whitelistStatus, setWhitelistStatus] = useState("Inactive");
+  const [whitelistData, setWhitelistData] = useState("");
+  const [status, setStatus] = useState("");
   const [adminEmail, setAdminEmail] = useState('');
   const [admins, setAdmins] = useState([]);
+
+  const contractABI = [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "addWhitelister",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "status",
+          "type": "bool"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ],
+      "name": "setWhitelist",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+  ];
+
+  const contractAddress = "0x2acB1f8495653DB637987cC96001E09Bc6085D00";
+
+  useEffect(() => {
+    const initialize = async () => {
+      if (window.ethereum) {
+        const prov = new ethers.BrowserProvider(window.ethereum);
+        setProvider(prov);
+
+        const signer = await prov.getSigner();
+        setSigner(signer);
+
+        const contractInstance = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
+        setContract(contractInstance);
+      } else {
+        setStatus("MetaMask is not installed");
+      }
+    };
+
+    initialize();
+  }, []);
+
+  const handleAddWhitelist = async () => {
+    if (!contract) {
+      setStatus("Contract is not loaded");
+      return;
+    }
+
+    try {
+      const tx = await contract.addWhitelister(whitelistAddress);
+      await tx.wait();
+      setStatus("Address added to whitelist successfully");
+    } catch (error) {
+      setStatus(`Error: ${error.message}`);
+    }
+  };
+
+  const handleSetWhitelist = async () => {
+    if (!contract) {
+      setStatus("Contract is not loaded");
+      return;
+    }
+
+    try {
+      const statusBool = whitelistStatus === "Active";
+      const tx = await contract.setWhitelist(whitelistAddress, statusBool, whitelistData);
+      await tx.wait();
+      setStatus("Whitelist status updated successfully");
+    } catch (error) {
+      setStatus(`Error: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     const adminsRef = ref(database, 'admins');
@@ -21,8 +127,6 @@ export default function Admin() {
     });
   }, []);
 
-
-  
   const handleTopicInputChange = (e) => {
     setTopic(e.target.value);
   };
@@ -100,28 +204,54 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="input-group-1">
-        <label className="label">Add Topic</label>
-        <div className="note-container-1">
-          <p>NOTE:</p>
-          <ul>
-            <li>For adding topic to database</li>
-            <li>Creating a mapping of string to uint for smart contract</li>
-          </ul>
+      <div className="erc1404-container">
+        <h3>ERC-1404 :Compliance</h3>
+        <div className="whitelist-box-container">
+          <div className="whitelist-box">
+            <div className="whitelist-section">
+            <h3 className='header'>STEP-1</h3>
+              <h4>Whitelist an Address</h4>
+              <input 
+                type="text"
+                placeholder="Enter address"
+                value={whitelistAddress}
+                onChange={(e) => setWhitelistAddress(e.target.value)}
+              />
+              <button onClick={handleAddWhitelist}>Add to Whitelist</button>
+              <p>{status}</p>
+         
+            </div>
+          </div>
+          
+          <div className="whitelist-box">
+            <div className="whitelist-section">
+            <h3 className='header'>STEP-2</h3>
+              <h4>Set Whitelist Status</h4>
+              <input
+                type="text"
+                placeholder="Enter address"
+                value={whitelistAddress}
+                onChange={(e) => setWhitelistAddress(e.target.value)}
+              />
+              <select
+                value={whitelistStatus}
+                onChange={(e) => setWhitelistStatus(e.target.value)}
+              >
+                <option value="Active">True</option>
+                <option value="Inactive">False</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Enter data"
+                value={whitelistData}
+                onChange={(e) => setWhitelistData(e.target.value)}
+              />
+              <button onClick={handleSetWhitelist}>Set Whitelist</button>
+              <p>{status}</p>
+              <p className='note'> NOTE: First whitelist user before adding rules...</p>
+            </div>
+          </div>
         </div>
-        <input
-          type="text"
-          placeholder="Enter a topic"
-          value={topic}
-          onChange={handleTopicInputChange}
-        />
-        <input
-          type="text"
-          placeholder="Enter hex code"
-          value={hexcode}
-          onChange={handleHexcodeInputChange}
-        />
-        <button onClick={saveTopicToFirebase}>Save Topic</button>
       </div>
     </>
   );

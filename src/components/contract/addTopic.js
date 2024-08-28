@@ -106,18 +106,18 @@ const ClaimTopicsRegistry = () => {
             const hexCode = await fetchHexCode(selectedTopicKey);
     console.log("hexcode" ,selectedTopicKey,'=>', hexCode);
     
-            // await window.ethereum.request({ method: 'eth_requestAccounts' });
-            // const provider = new ethers.BrowserProvider(window.ethereum);
-            // const signer = await provider.getSigner();
-            // const abi = [
-            //     'function addClaimTopic(uint256 _claimTopic) external',
-            // ];
-            // const contract = new ethers.Contract(contractAddress, abi, signer);
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+            const abi = [
+                'function addClaimTopic(uint256 _claimTopic) external',
+            ];
+            const contract = new ethers.Contract(contractAddress, abi, signer);
     
-            // // Convert hex code to a number
-            // const topic = parseInt(hexCode, 16);
-            // const tx = await contract.addClaimTopic(topic);
-            // await tx.wait();
+            // Convert hex code to a number
+            const topic = parseInt(hexCode, 16);
+            const tx = await contract.addClaimTopic(topic);
+            await tx.wait();
     
             setMessage('Claim topic added successfully!');
         } catch (error) {
