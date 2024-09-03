@@ -78,8 +78,19 @@ export default function Navbar() {
             )}
              {user && isAdmin && (
               <li className="nav-item">
-                <Link className="nav-link" to="/issuer">CLAIM ISSUER
+                <Link className="nav-link" to="/appoint-claim">APPOINT CLAIM
                 </Link>
+              </li>
+            )}
+             {user && isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/erc1404">ERC-1404
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/auction">AUCTION</Link>
               </li>
             )}
           </ul>

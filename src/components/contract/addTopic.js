@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import '../css/ClaimTopicsRegistry.css'; // Importing the CSS file for styling
 
 const ClaimTopicsRegistry = () => {
-    const [contractAddress, setContractAddress] = useState('');
+    // const [contractAddress, setContractAddress] = useState('');
     const [claimTopic, setClaimTopic] = useState('');
     const [selectedTopicKey, setSelectedTopicKey] = useState(''); // New state for selected topic key
     const [message, setMessage] = useState('');
@@ -112,7 +112,7 @@ const ClaimTopicsRegistry = () => {
             const abi = [
                 'function addClaimTopic(uint256 _claimTopic) external',
             ];
-            const contract = new ethers.Contract(contractAddress, abi, signer);
+            const contract = new ethers.Contract("0xE1D92867B0DDE5ecE2c20Ca14b879331532cDF8f", abi, signer); //topic registy 
     
             // Convert hex code to a number
             const topic = parseInt(hexCode, 16);
@@ -154,9 +154,11 @@ const ClaimTopicsRegistry = () => {
             const abi = [
                 'function removeClaimTopic(uint256 _claimTopic) external',
             ];
-            const contract = new ethers.Contract(contractAddress, abi, signer);
+            const contract = new ethers.Contract("0xE1D92867B0DDE5ecE2c20Ca14b879331532cDF8f", abi, signer); // topic registry 
             const topic = parseInt(claimTopic, 10);
+            
             const tx = await contract.removeClaimTopic(topic);
+
             await tx.wait();
             setMessage('Claim topic removed successfully!');
         } catch (error) {
@@ -167,17 +169,12 @@ const ClaimTopicsRegistry = () => {
 
     return (
         <>
-            {!metaMaskAddress ? (
-                <div className="connect-metamask-container">
-                    <p>Please connect MetaMask to see your address</p>
-                    <button onClick={handleMetaMaskConnect}>Connect MetaMask</button>
-                </div>
-            ) : (
+          
                 <>
                     <p className='address'>Network: {networkName}</p>
                     <p className='address'>Address: {metaMaskAddress}</p>
                     <div className="form-container">
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label>Contract Address:</label>
                             <input
                                 type="text"
@@ -186,7 +183,7 @@ const ClaimTopicsRegistry = () => {
                                 placeholder="Enter contract address"
                                 required
                             />
-                        </div>
+                        </div> */}
                         <hr className="styled-hr" />
                         <div className="form-group">
                             <label>Add Claim Topic:</label>
@@ -232,7 +229,7 @@ const ClaimTopicsRegistry = () => {
                         {message && <p>{message}</p>}
                     </div>
                 </>
-            )}
+            
         </>
     );
 };

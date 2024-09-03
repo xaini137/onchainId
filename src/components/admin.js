@@ -204,7 +204,7 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="erc1404-container">
+      {/* <div className="erc1404-container">
         <h3>ERC-1404 :Compliance</h3>
         <div className="whitelist-box-container">
           <div className="whitelist-box">
@@ -252,7 +252,7 @@ export default function Admin() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

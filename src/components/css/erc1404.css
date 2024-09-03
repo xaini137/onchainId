@@ -1,0 +1,70 @@
+.form-container {
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    padding-right: 20px; /* Add padding to give some space from the right edge */
+}
+
+.form-group-horizontal {
+    display: flex;
+    justify-content: center; /* Center the form items */
+    gap: 50px; /* Adjust the space between items */
+    width: 100%;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align label and value */
+    text-align: center;
+}
+
+.form-item label {
+    margin-bottom: 0px;  
+    text-align: center;
+    width: max-content;
+}
+
+.form-item p, .form-item output {
+    margin: 0;
+    text-align: left; 
+}
+
+.whitelist-section in-same-line {
+    background-color: blue;
+
+}
+
+.inline-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+.inline-container input {
+    max-width:30% ;
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+   
+}
+
+.inline-container button {
+    margin-left: 30px;
+    padding-left:  12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.Admin-box{
+
+    
+        flex: 1;
+        margin: 0 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+      
+}

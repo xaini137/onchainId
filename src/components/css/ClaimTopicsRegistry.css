@@ -1,71 +1,70 @@
-.form-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  .submit-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    width: 150px;
-  }
-  
-  .submit-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .address {
-    text-align: right;
-    margin: 10px;
-    font-weight: bold;
-  }
-  
-  .connect-metamask-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+.claim-topics-form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.connect-metamask-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.claim-topics-form-group {
+  margin-bottom: 20px;
 }
 
-.connect-metamask-button:hover {
-    background-color: #0056b3;
+.claim-topics-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.claim-topics-submit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+}
+
+.claim-topics-submit-button:hover {
+  background-color: #0056b3;
+}
+
+.network-address-info {
+  text-align: right;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.connect-metamask-custom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.connect-metamask-custom-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.connect-metamask-custom-button:hover {
+  background-color: #0056b3;
 }
 
 /* Style for the horizontal line */
-.styled-hr {
+.custom-styled-hr {
   border: 0;
   height: 3px;
-
   background: linear-gradient(to right, #c0c0c0, #e0e0e0, #c0c0c0);
   margin: 20px 0;
 }

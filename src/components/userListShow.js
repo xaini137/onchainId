@@ -23,12 +23,14 @@ const UserTable = () => {
                         ...user,
                         onchsinid: user.onchsinid || null, // Ensure onchsinid is present
                     }));
-                    console.log(usersData);
                     setUsers(usersData);
-                    // Fetch identities
+
+                    // Fetch identities for users without an onchsinid
                     for (const user of usersData) {
                         if (!user.onchsinid) {
                             const identity = await checkOnchainId(user.metaMaskAddress);
+                            console.log(identity);
+                            
                             await updateUserIdentity(user.id, identity);
                         }
                     }
@@ -48,9 +50,9 @@ const UserTable = () => {
             const response = await axios.post('http://127.0.0.1:8080/get_identity', {
                 userAddress: userAddress,
             });
-        
+
             if (response.status === 200 && response.data.identity) {
-                console.log("log here ", response.data.identity);
+                console.log("Fetched onchain ID:", response.data.identity);
                 return response.data.identity; // Return the fetched identity
             } else {
                 return null; // Return null if no identity is found
@@ -101,13 +103,14 @@ const UserTable = () => {
 
                     if (response.status === 200 && response.data.success) {
                         const { identity } = response.data;
-                        await update(userRef, { onchsinid: identity });
+                        await updateUserIdentity(userId, identity);
                     } else {
                         setErrorMessage(response.data.message || 'An error occurred.');
                         setShowErrorPopup(true);
                     }
                 }
 
+                // Refresh user list after updating
                 const usersRef = databaseRef(database, 'investors');
                 const snapshot = await get(usersRef);
                 if (snapshot.exists()) {

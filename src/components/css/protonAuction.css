@@ -1,0 +1,150 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #baccde75; /* Light gray background */
+    border-radius: 10px;
+ 
+}
+
+.form-group-horizontal {
+    display: flex;
+    gap: 50px;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-item label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+    width: max-content;
+    margin-left: 30px;
+}
+
+.form-item p {
+    margin: 0;
+    text-align: left;
+    
+}
+
+.output {
+    text-align: left;
+
+}
+
+.note {
+    font-weight: bold;
+    color: red;
+}
+
+.auction-container {
+    padding: 20px;
+}
+
+.auction-actions {
+    margin-top: 20px;
+}
+
+.connect-metamask-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.connect-metamask-container p {
+    margin: 0 10px;
+}
+
+.buy-token {
+    background-color: #f0f0f0; /* Light gray background */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Space inside the container */
+    margin: 20px auto; /* Center the container with space around it */
+    max-width: 400px; /* Max width of the container */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    overflow: hidden; /* Hide any overflow */
+    position: relative; /* Required for absolute positioning inside */
+    text-align: center; /* Center-align the content */
+}
+
+.buy-token h3 {
+    font-size: 24px; /* Size of the heading */
+    margin-bottom: 15px; /* Space below the heading */
+    color: #333; /* Dark gray color for the text */
+}
+
+.buy-token input[type="number"] {
+    width: calc(100% - 22px); /* Full width with padding and border adjustment */
+    padding: 10px; /* Space inside the input */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    margin-bottom: 10px; /* Space below the input */
+    font-size: 16px; /* Font size of the input */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.buy-token p {
+    font-size: 18px; /* Font size of the result text */
+    margin-bottom: 20px; /* Space below the result text */
+    color: #555; /* Medium gray color for the text */
+}
+
+.buy-token button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 12px; /* Adjust padding for better appearance */
+    border-radius: 20px; /* Increased radius for smoother, rounded corners */
+    font-size: 16px; /* Font size of the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    width: 94%; /* Adjust width as needed */
+    margin-bottom: 10px; /* Space below the button */
+    align-items: center; /* Center align items */
+}
+
+
+.buy-token button:hover {
+    background-color: #0056b3; /* Darker button color on hover */
+}
+
+input[type="number"] {
+    width: 100%; /* Full width of the container */
+    padding: 10px; /* Space inside the input */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size of the input */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    background-color: #fff; /* White background */
+    appearance: none; /* Remove default styling */
+    -moz-appearance: textfield; /* Remove default styling for Firefox */
+}
+
+/* Remove spin buttons for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove spin buttons for WebKit browsers */
+    margin: 0; /* Remove margin */
+}
+
+input[type="number"]::-moz-focus-inner {
+    border: 0; /* Remove inner border for Firefox */
+    padding: 0; /* Remove padding */
+}
+
+input[type="number"]::placeholder {
+    color: #888; /* Placeholder text color */
+    font-style: italic; /* Italicize placeholder text */
+}
+
+.bold-text{
+    font-weight: bold;
+}

@@ -75,7 +75,7 @@ input[readonly] {
 
 button {
   padding: 8px 10px;        /* Smaller button padding */
-  margin-left: 10px;        /* Space between buttons */
+        /* Space between buttons */
   background-color: #007bff;
   color: white;
   border: none;

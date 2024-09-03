@@ -13,7 +13,10 @@ import { checkIfAdmin } from './utils/adminCheck';
 import UserTable from './components/userListShow'; // Import the UserTable component
 import BecomeAdmin from './components/becomeadmin';
 import Topic from './components/topic';
+import ERC1404 from './components/contract/erc1404Whitelist';
 import AddTopic from './components/contract/addTopic';
+import Auction from './components/contract/auction';
+import AppointClaim from './components/contract/AppointClaim';
 function App() {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -144,14 +147,21 @@ function App() {
         <Route path="/user-list">
           <UserTable />
         </Route>
-
+        <Route path="/appoint-claim">
+          <AppointClaim />
+        </Route>
         <Route path="/topic">
           <Topic />
+        </Route>
+        <Route path="/erc1404">
+          <ERC1404 />
         </Route>
         <Route path="/contract">
           <AddTopic />
         </Route>
-
+        <Route path="/auction">
+          <Auction />
+        </Route>
         <Route path="/">
           {user ? (
             <div className="App">
