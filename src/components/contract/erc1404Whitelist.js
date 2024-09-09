@@ -5,7 +5,7 @@ import '../css/erc1404.css'; // Importing the CSS file for styling
 const ClaimTopicsRegistry = () => {
     const [status, setStatus] = useState("");
     const [contract, setContract] = useState(null);
-    const [contractAddress] = useState('0x1BC420db53CEc0801BAb6DA747c93F64f82B4EA6');
+    const [contractAddress] = useState('0xaAD2d6dcc292EC80B319F725601D7884DFa52379');
     const [metaMaskAddress, setMetaMaskAddress] = useState('');
     const [isMetaMaskConnected, setIsMetaMaskConnected] = useState(false);
     const [networkName, setNetworkName] = useState('');
@@ -18,6 +18,11 @@ const ClaimTopicsRegistry = () => {
     const [whitelistCheckStatus, setWhitelistCheckStatus] = useState("");
     const [mintAmount, setMintAmount] = useState("");
     const [userAddress, setUserAddress] = useState("")
+    const [userType,setUserType] = useState('')
+    const [checkuserType,setCheckUserType] = useState('')
+    const [allLockAmount,setAllLockAmount] = useState([])
+    const [totallock,seTtotallock] = useState('')
+    const userTypesArray = ["Contract" , "NonUS" , "Accredited" , "Institutional"]
     const bscTestnet = {
         chainId: '0x61', // BSC Testnet chain ID in hexadecimal
         chainName: "Binance Smart Chain Testnet",
@@ -91,23 +96,33 @@ const ClaimTopicsRegistry = () => {
                 'function setWhitelist(address, bool, string) external',
                 'function Mint(address, uint256) external',
                 'function addPauser(address) external',
-                'function addRevoker(address) external',  // Added
-                'function addTimelocker(address) external',  // Added
+                'function addRevoker(address) external',  
+                'function addTimelocker(address) external', 
                 'function isWhitelister(address account) public view returns (bool)',
+                ' function register(address  ,string) external' ,
+                'function getWhitelistData(address) public view returns (string memory)',
+                'function getLockedAmount(address ) public view returns (uint256)',
+                'function checkLockup( address ) public view returns (uint256[] memory, uint256[] memory)'
             ];
-
             const contract = new ethers.Contract(contractAddress, abi, signer);
             setContract(contract);
-            const [supply, balance, pause, isWhitelister] = await Promise.all([
+            const [supply, balance, pause, isWhitelister,getdata , getTotalLock , alllockdetail] = await Promise.all([
                 contract.totalSupply(),
                 contract.balanceOf(metaMaskAddress),
                 contract.paused(),
                 contract.isWhitelister(metaMaskAddress),
+                contract.getLockedAmount(metaMaskAddress),
+                contract.checkLockup(metaMaskAddress)
             ]);
+            console.log(getTotalLock);
+            
             setPause(pause);
             setTotalSupply(ethers.formatUnits(supply, 18));
             setBalance(ethers.formatUnits(balance, 18));
             setWhitelistStatus(isWhitelister ? "Active" : "Inactive");
+            setAllLockAmount(alllockdetail);
+            let lock =await   contract.getLockedAmount(metaMaskAddress)
+            seTtotallock(ethers.formatEther(lock))
         } catch (error) {
             console.error('Error fetching contract data:', error);
         }
@@ -128,6 +143,25 @@ const ClaimTopicsRegistry = () => {
         }
     };
 
+    const handleUserType = async () => {
+        if (!contract) {
+            setStatus("Contract is not loaded");
+            return;
+        }
+
+        try {
+            console.log("line 140",whitelistAddress , userType);
+            
+            const tx = await contract.register(whitelistAddress,userType);
+            await tx.wait();
+            setStatus("Address added to whitelist successfully");
+        } catch (error) {
+            console.log(error);
+            
+            setStatus(`Error adding to whitelist: `);
+        }
+    };
+
     const handleSetWhitelist = async () => {
         if (!contract) {
             setStatus("Contract is not loaded");
@@ -142,7 +176,7 @@ const ClaimTopicsRegistry = () => {
             await tx.wait();
             setStatus("Whitelist status updated successfully");
         } catch (error) {
-            setStatus(`Error setting whitelist: ${error.message}`);
+            setStatus(`Error setting whitelist: `);
         }
     };
 
@@ -154,12 +188,28 @@ const ClaimTopicsRegistry = () => {
                 const isWhitelister = await contract.isWhitelister(address);
                 setWhitelistCheckStatus(isWhitelister ? "Address is already whitelisted" : "Address is not whitelisted");
             } catch (error) {
-                setWhitelistCheckStatus(`Error checking whitelist status: ${error.message}`);
+                setWhitelistCheckStatus(`Error checking whitelist status:`);
             }
         } else {
             setWhitelistCheckStatus("Invalid address");
         }
     };
+
+    const handleUserTpe = async (e) => {
+        const address = e.target.value;
+        setWhitelistAddress(address);
+        if (address && ethers.isAddress(address)) {
+            try {
+                const isWhitelister = await contract.getUserType(address);
+                setCheckUserType(checkuserType ? `Address is :${checkuserType}` : "Address is not registerd");
+            } catch (error) {
+                setCheckUserType(`Error checking whitelist status:`);
+            }
+        } else {
+            setCheckUserType("Invalid address");
+        }
+    };
+
 
     const handleMint = async () => {
         if (!contract) {
@@ -171,7 +221,7 @@ const ClaimTopicsRegistry = () => {
             await tx.wait();
             setStatus("Tokens minted successfully");
         } catch (error) {
-            setStatus(`Error minting tokens: ${error.message}`);
+            setStatus(`Error minting tokens:`);
         }
     };
 
@@ -248,6 +298,11 @@ const ClaimTopicsRegistry = () => {
                         <label>Whitelist Status:</label>
                         <p>{whitelistStatus}</p>
                     </div>
+                    <div className="form-item">
+                        <label>TotalLock:</label>
+                        <p>{totallock}</p>
+                    </div>
+                   
                 </div>
             </div>
             <div className="erc1404-container">
@@ -298,6 +353,28 @@ const ClaimTopicsRegistry = () => {
                     <div className="whitelist-box">
                         <div className="whitelist-section">
                             <h3 className='header'>STEP-3</h3>
+                            <h4>Assign User Type</h4>
+                            <input
+                                type="text"
+                                placeholder="Enter address"
+                                value={whitelistAddress}
+                                onChange={handleUserTpe}
+                            />
+                            <select
+                                value={userType}
+                                onChange={(e) => setUserType(e.target.value)}
+                            >
+                                {userTypesArray.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
+                                ))}
+                            </select>
+                            <button onClick={handleUserType}>Set User Type</button>
+                            <p>{status}</p>
+                        </div>
+                    </div>
+                    {/* <div className="whitelist-box">
+                        <div className="whitelist-section">
+                            <h3 className='header'>STEP-3</h3>
                             <h4>Mint Tokens</h4>
                             <input
                                 type="text"
@@ -314,7 +391,7 @@ const ClaimTopicsRegistry = () => {
                             <button onClick={handleMint}>Mint</button>
                             <p>{status}</p>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
                 <div className="erc1404-container">

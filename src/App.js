@@ -17,6 +17,7 @@ import ERC1404 from './components/contract/erc1404Whitelist';
 import AddTopic from './components/contract/addTopic';
 import Auction from './components/contract/auction';
 import AppointClaim from './components/contract/AppointClaim';
+import IssueClaim from './components/contract/issueClaim';
 function App() {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -146,6 +147,9 @@ function App() {
         </Route>
         <Route path="/user-list">
           <UserTable />
+        </Route>
+        <Route path="/issueClaim">
+          <IssueClaim />
         </Route>
         <Route path="/appoint-claim">
           <AppointClaim />

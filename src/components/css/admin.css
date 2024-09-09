@@ -143,3 +143,49 @@ button:hover {
   background-color: #9eaec9;
   padding: 10px;
 }
+
+.checklockup {
+  text-decoration: underline;
+  /* background-color: rgba(139, 134, 134, 0.074); */
+  color: blue;
+  padding: 8px;
+  border-radius: 4px; 
+}
+/* protonAuction.css */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+}
+
+.modal-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal-content li {
+  margin-bottom: 10px;
+}
+
+.modal-content button {
+  margin-top: 20px;
+}

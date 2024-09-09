@@ -93,6 +93,12 @@ export default function Navbar() {
                 <Link className="nav-link" to="/auction">AUCTION</Link>
               </li>
             )}
+             {user && isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/issueClaim">Issue-Claim
+                </Link>
+              </li>
+            )}
           </ul>
           {user && (
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
