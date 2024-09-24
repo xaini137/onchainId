@@ -1,0 +1,77 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getSuccessCode",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"getSuccessCode()": {
+					"returns": {
+						"_0": "uint256 SUCCESS_CODE"
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"getSuccessCode()": {
+					"notice": "Return the uint256 that represents the SUCCESS_CODE"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ERC1404/Restriction/restriction_flatten.sol": "IERC1404getSuccessCode"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ERC1404/Restriction/restriction_flatten.sol": {
+			"keccak256": "0x1336368ee07ac464cd3174b524b24bf2f42d7b007450d261e9538c494cc4ada0",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://b25f6f7dfce865e189f2d2e343a470eaa138656ed1ba74b5c2e085c0e8f8a2ab",
+				"dweb:/ipfs/QmXfdzXdPLJzdQjAg2wacEYPC6ehEQJcRqzSuVvj1cnoQv"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
+				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
+			]
+		}
+	},
+	"version": 1
+}

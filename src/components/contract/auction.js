@@ -18,7 +18,7 @@ const tokenAbi = [
   "function checkLockup( address ) public view returns (uint256[] memory, uint256[] memory)",
   "function getUserType( address ) public view returns (string )",
 ];
-
+ 
 // const contractAddress = "0x4Ce4F22AFE556101F9AA41379975eF9dc94742b0";
 const contractAddress = "0x00AD35dB57cF630d26D99CE7EA956D7dbae02c49";
 const abi = [

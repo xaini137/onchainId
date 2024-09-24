@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "MathOverflowedMulDiv",
+				"type": "error"
+			}
+		],
+		"devdoc": {
+			"details": "Standard math utilities missing in the Solidity language.",
+			"errors": {
+				"MathOverflowedMulDiv()": [
+					{
+						"details": "Muldiv operation overflow."
+					}
+				]
+			},
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ERC20/ERC20_flatten.sol": "Math"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ERC20/ERC20_flatten.sol": {
+			"keccak256": "0x8bb57c3651cd6a37b83d3cff76f01e3ddf1ea0f465d615bd6a4833960f17fd18",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://11fc9e05e0b6f7bd55f7071bfcb12a6e21bfe4d209c620c55f0eb05d726ac9ee",
+				"dweb:/ipfs/QmaejE8QaCzCCUbmCwCsZG2SDPhwet1aagodVDzzkoAY3K"
+			]
+		}
+	},
+	"version": 1
+}
