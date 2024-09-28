@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: UNLICENSED
 
 pragma solidity ^0.8.20;
-import "hardhat/console.sol";
+//import "hardhat///console.sol";
 /**
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
@@ -837,8 +837,8 @@ contract ProtonAuction is Ownable {
         }
 
            require(!isPaused, "Auction Paused");
-           console.log(_amount);
-           console.log( PROTON.balanceOf(address(this)));
+           //console.log(_amount);
+           //console.log( PROTON.balanceOf(address(this)));
         
         require(
             auction.tokensSold < maxOversubscription,
@@ -851,14 +851,14 @@ contract ProtonAuction is Ownable {
 
         // Calculate USDT equivalent for the token amount
         uint256 usdtAmount = (_amount * tokenPrice) / (10 ** 18);
-        console.log(usdtAmount);
+        //console.log(usdtAmount);
         require(
             contractAddress.transferFrom(msg.sender, fundsWallet, usdtAmount),
             "USDT transfer failed"
         );
 
         uint256 amount;
-         console.log("auction daily",auction.tokensSold ,auction.tokensDaily );
+         //console.log("auction daily",auction.tokensSold ,auction.tokensDaily );
         if (auction.tokensSold + _amount > auction.tokensDaily) {
             if (auction.tokensSold > auction.tokensDaily) {
                 amount = (auction.tokensSold + _amount) - auction.tokensSold;
@@ -877,27 +877,27 @@ contract ProtonAuction is Ownable {
         uint256 lockTime ; 
         // String comparison for user type
         string memory _userType = PROTON.getUserType(userAddress);
-        console.log(_userType);
+        //console.log(_userType);
         if (
             keccak256(abi.encodePacked(_userType)) ==
             keccak256(abi.encodePacked("Accredited"))
         ) {
           lockTime = block.timestamp + lockingDay;
-          console.log("lockTime a",lockTime);
+          //console.log("lockTime a",lockTime);
         }
         if (
             keccak256(abi.encodePacked(_userType)) ==
             keccak256(abi.encodePacked("NonUS"))
         ) {
       lockTime = block.timestamp + lockingDay;
-              console.log("lockTime b",lockTime);
+              //console.log("lockTime b",lockTime);
         }
         if (
             keccak256(abi.encodePacked(_userType)) ==
             keccak256(abi.encodePacked("Institutional"))
         ) {
      lockTime = block.timestamp + lockingDay;
-             console.log("lockTime c",lockTime);
+             //console.log("lockTime c",lockTime);
         }
         PROTON.lock(userAddress, _amount, lockTime);
         // Transfer Proton tokens to the buyer

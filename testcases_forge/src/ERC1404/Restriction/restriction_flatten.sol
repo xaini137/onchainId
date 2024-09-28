@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.20;
-
+//import "hardhat/console.sol";
 
 interface IERC1404 {
     /// @notice Detects if a transfer will be reverted and if so returns an appropriate reference code
@@ -124,7 +124,7 @@ contract TransferRestrictions is
     IERC1404,
     RestrictionMessages,
     IERC1404Success
-    {
+{
     IERC1404Validators validators;
 
     /**
@@ -147,12 +147,11 @@ contract TransferRestrictions is
         address to,
         uint256 amount
     ) public view returns (uint8) {
-    
+       
         if (!validators.isRegistered(from)) {
+           // console.log("checking the user address",from);
             return NO_USER_TYPE;
         }
-    
-
         // Confirm that that addresses are whitelisted
         if (!validators.checkWhitelists(from, to)) {
             return FAILURE_NON_WHITELIST;
@@ -182,7 +181,7 @@ contract TransferRestrictions is
         address from,
         address to,
         uint256 value
-    ) public view returns (uint8) {
+     ) public view returns (uint8) {
         if (!validators.isRegistered(from)) {
             return NO_USER_TYPE;
         }
@@ -202,7 +201,7 @@ contract TransferRestrictions is
     */
     function messageForTransferRestriction(
         uint8 restrictionCode 
-    ) external pure returns (string memory) {
+     ) external pure returns (string memory) {
         if (restrictionCode == SUCCESS_CODE) {
             return SUCCESS_MESSAGE;
         }

@@ -198,19 +198,11 @@
 	},
 	"sources": {
 		"Auction/auction1404.sol": {
-			"keccak256": "0xa8e2bd896ba6c9353480e9772d1e194fb6ff838d2ad761c0184bc719bf208f19",
+			"keccak256": "0xdd3f74bfcde7fb01b34f9d6fe7acd76188e8e447b19c61b044935a37458f1dbd",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://3230dd8fbe0fe3b946995ab5a13e88560421a003a7e65def7bcbbac80770e68c",
-				"dweb:/ipfs/Qme5UFToS4tSFZikmJirBCmqhrHfRzBf1Snf58sQyZQzkw"
-			]
-		},
-		"hardhat/console.sol": {
-			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
-				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
+				"bzz-raw://8784129a54560264662d126a47cc8552d2689e8ff1850a0b71d1db65a8f285c2",
+				"dweb:/ipfs/QmP6188KnykS7iXKVjF6fUiVzumyu6M4UTC26Hr4AyRhsQ"
 			]
 		}
 	},

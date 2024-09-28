@@ -1,0 +1,44 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ERC1404/ERC1404_flatten_flattened.sol": "Roles"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ERC1404/ERC1404_flatten_flattened.sol": {
+			"keccak256": "0xd25711a2f927e6876db10aa89199d285734ca9e7f8cb5ba4d13ccde0f46c79c4",
+			"urls": [
+				"bzz-raw://a39f14d0c72f98d758d7d8298f945bad6f702f84e66302d551558e1a01429a2b",
+				"dweb:/ipfs/QmTZVMw6zsDADLrth9axab3UBZGTAH6HRR6NDf8JJcA9UG"
+			]
+		}
+	},
+	"version": 1
+}

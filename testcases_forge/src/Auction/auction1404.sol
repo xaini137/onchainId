@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: UNLICENSED
 
 pragma solidity ^0.8.20;
-// import "hardhat/console.sol";
+// import "hardhat///console.sol";
 /**
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
@@ -704,33 +704,37 @@ interface IProton {
     ) external returns (bool);
     function getUserType(address _user) external view returns (string memory);
 }
-
+// claimreward , auction status , startAuction 
 contract ProtonAuction is Ownable {
-    // IERC20 public USDT;
+    IERC20 public USDT;
     IProton public PROTON;
     uint256 public tokenPrice = 1 * 10 ** 18; // 1 USDT per Proton token
-    uint256 public dailySupply = 2000000 * 10 ** 18;
+    // uint256 public dailySupply = 2000000 * 10 ** 18;
     uint256 public maxOversubscription = 5000000 * 10 ** 18;
     uint256 public maxOversubscriptionlimit = 1000000 * 10 ** 18;
-    uint256 public currentRoundEnd;
+    // uint256 public currentRoundEnd;
     uint256 public totalSell;
-    uint256 public lockingDay = 3600 ;
-    uint256 public currentRoundStart;
+    uint256 public lockingDay = 180 ;
+    uint256 public currentRound;
     bool    public isPaused = true;
     address public fundsWallet;
-
+    IERC20 [] public token;
     struct Auction {
         uint256 tokensDaily;
         uint256 tokensSold;
         uint256 oversubscribed;
         uint256 bonusMultiplier;
     }
-
+    struct Round {
+        uint256 roundStart;
+        uint256 roundEnd;
+        mapping(uint256 => Auction) dailyAuctions;
+    }
     struct UserDetails {
         uint256 reward;
         uint256 buyTotal;
     }
-
+    mapping(uint256 => Round) public rounds; 
     mapping(uint256 => Auction) public dailyAuctions;
     mapping(address => UserDetails) public userDetail;
 
@@ -740,12 +744,12 @@ contract ProtonAuction is Ownable {
         uint256 amount , 
         uint256 lockTime
     );
-
+event claimreward (address user , uint256 leftToken , uint256 amount , uint256 timeClaim);
+event StartAuction(uint256 round , uint256 startTime , uint256 endtime);
     constructor(
         address _protonAddress,
         address _fundsWalletAdd
      ) Ownable(msg.sender) {
-        // USDT = IERC20(_usdtAddress);
         PROTON = IProton(_protonAddress);
         fundsWallet = _fundsWalletAdd;
         isPaused = true;
@@ -754,34 +758,36 @@ contract ProtonAuction is Ownable {
 
     modifier auctionActive() {
         require(!isPaused, "Auction is paused");
-        require(block.timestamp <= currentRoundEnd, "Current round has ended");
+        require(block.timestamp <= rounds[currentRound].roundEnd, "Current round has ended");
         _;
     }
 
     modifier auctionEnded() {
         require(isPaused, "Auction is still active");
-        require(
-            block.timestamp > currentRoundEnd,
-            "Auction days are not complete"
-        );
+        require(block.timestamp > rounds[currentRound].roundEnd, "Auction days are not complete");
         _;
     }
 
-    function startAuction() external onlyOwner {
-        require(isPaused, "Auction already started");
-        isPaused = false;
-        currentRoundEnd = block.timestamp + (7 days);
-        currentRoundStart = block.timestamp;
+    function setToken(IERC20 addr) external onlyOwner {
+        token.push(addr);
+    }
 
-        // Initialize daily auction details
+    function startAuction() external onlyOwner {
+         require(isPaused, "Auction already started");
+        isPaused = false;
+
+        // Move to the next round
+        currentRound++;
+        Round storage round = rounds[currentRound];
+
+        round.roundStart = block.timestamp;
+        round.roundEnd = block.timestamp + (7 days);
+
         for (uint256 i = 1; i <= 7; i++) {
             dailyAuctions[i].tokensDaily = 2_000_000 * 10 ** 18;
-            dailyAuctions[i].bonusMultiplier = (i <= 5)
-                ? 3
-                : (i == 6)
-                    ? 2
-                    : 1;
+            dailyAuctions[i].bonusMultiplier = (i <= 5) ? 3 : (i == 6)? 2: 1;
         }
+        emit StartAuction(currentRound , round.roundStart ,  round.roundEnd  );
     }
 
     function setPrice(uint256 _tokenPrice) external onlyOwner {
@@ -792,8 +798,6 @@ contract ProtonAuction is Ownable {
         fundsWallet = _fundsWalletAddr;
     }
 
-
-// add events
     function setDailyDetails(
         uint256 day,
         uint256 tokensDaily,
@@ -803,35 +807,38 @@ contract ProtonAuction is Ownable {
         dailyAuctions[day].tokensDaily = tokensDaily;
     }
 
-    function AuctionTime() external view returns (uint, uint) {
-        return (currentRoundStart, currentRoundEnd);
+    function AuctionTime() external view returns (uint256 _currentRound,uint256 roundStart, uint256 roundEnd) {
+        return (_currentRound = currentRound ,roundStart= rounds[currentRound].roundStart,roundEnd= rounds[currentRound].roundEnd);
     }
 
- function getCurrentDay() public view returns (uint256) {
-    if (isPaused || block.timestamp > currentRoundEnd) {
-        return 8; // Return 8 if the auction has ended
-    }
-    uint256 elapsed = block.timestamp - currentRoundStart;
-    uint256 day = (elapsed / 1 days) + 1;
+    function getCurrentDay() public view returns (uint256) {
+        Round storage round = rounds[currentRound];
 
-    // If we are in the 7th day, return 7 regardless of how close we are to `currentRoundEnd`.
-    if (day > 7) {
-        return 7;
-    }
+        if (isPaused || block.timestamp > round.roundEnd) {
+            return 8; // Return 8 if the auction has ended
+        }
 
-    return day;
-}
+        uint256 elapsed = block.timestamp - round.roundStart;
+        uint256 day = (elapsed / 1 days) + 1;
+
+        // Ensure the day is not greater than 7
+        if (day > 7) {
+            return 7;
+        }
+
+        return day;
+    }
 
     function buyTokens(
         IERC20 contractAddress,
-        address userAddress,
+    
         uint256 _amount) external auctionActive {
         uint256 currentDay = getCurrentDay();
         require(currentDay <= 7, "Auction days are complete");
        Auction storage auction = dailyAuctions[currentDay];
 
         if (currentDay == 7) {
-            require(block.timestamp <= currentRoundEnd, "Auction round has ended");
+            require(block.timestamp <=  rounds[currentRound].roundEnd, "Auction round has ended");
         }
 
         if (currentDay == 6 || currentDay == 7) {
@@ -839,8 +846,8 @@ contract ProtonAuction is Ownable {
         }
 
            require(!isPaused, "Auction Paused");
-        //    console.log(_amount);
-        //    console.log( PROTON.balanceOf(address(this)));
+        //    //console.log(_amount);
+        //    //console.log( PROTON.balanceOf(address(this)));
         
         require(
             auction.tokensSold < maxOversubscription,
@@ -850,17 +857,19 @@ contract ProtonAuction is Ownable {
             auction.oversubscribed < maxOversubscriptionlimit,
             "Not more than limit"
         );
-
-        // Calculate USDT equivalent for the token amount
+        require(
+            isTokenValid(contractAddress),
+             "Invalid token address"
+        );
         uint256 usdtAmount = (_amount * tokenPrice) / (10 ** 18);
-        // console.log(usdtAmount);
+        // //console.log(usdtAmount);
         require(
             contractAddress.transferFrom(msg.sender, fundsWallet, usdtAmount),
             "USDT transfer failed"
         );
 
         uint256 amount;
-        //  console.log("auction daily",auction.tokensSold ,auction.tokensDaily );
+        //  //console.log("auction daily",auction.tokensSold ,auction.tokensDaily );
         if (auction.tokensSold + _amount > auction.tokensDaily) {
             if (auction.tokensSold > auction.tokensDaily) {
                 amount = (auction.tokensSold + _amount) - auction.tokensSold;
@@ -869,8 +878,8 @@ contract ProtonAuction is Ownable {
             }
 
             auction.oversubscribed += amount;
-            userDetail[userAddress].buyTotal += amount;
-            userDetail[userAddress].reward += amount * auction.bonusMultiplier;
+            userDetail[msg.sender].buyTotal += amount;
+            userDetail[msg.sender].reward += amount * auction.bonusMultiplier;
         }
 
         totalSell += _amount;
@@ -878,89 +887,62 @@ contract ProtonAuction is Ownable {
         
         uint256 lockTime ; 
         // String comparison for user type
-        string memory _userType = PROTON.getUserType(userAddress);
-        // console.log(_userType);
-        if (
-            keccak256(abi.encodePacked(_userType)) ==
-            keccak256(abi.encodePacked("Accredited"))
-        ) {
-          lockTime = block.timestamp + lockingDay;
-        //   console.log("lockTime a",lockTime);
-        }
-        if (
-            keccak256(abi.encodePacked(_userType)) ==
-            keccak256(abi.encodePacked("NonUS"))
-        ) {
-      lockTime = block.timestamp + lockingDay;
-            //   console.log("lockTime b",lockTime);
-        }
-        if (
-            keccak256(abi.encodePacked(_userType)) ==
-            keccak256(abi.encodePacked("Institutional"))
-        ) {
-     lockTime = block.timestamp + lockingDay;
-            //  console.log("lockTime c",lockTime);
-        }
-        PROTON.lock(userAddress, _amount, lockTime);
+        string memory _userType = PROTON.getUserType(msg.sender);
+        // //console.log(_userType);
+        lockTime = block.timestamp + lockingDay;
+        // //console.log("lockTime c",lockTime);
+        // }
+        PROTON.lock(msg.sender, _amount, lockTime);
         // Transfer Proton tokens to the buyer
-        require(
-            PROTON.transfer(userAddress, _amount),
-            "Proton token transfer failed"
-        );
+        require(PROTON.transfer(msg.sender, _amount),"Proton token transfer failed");
 
-        emit TokensPurchased(userAddress, usdtAmount, _amount , lockTime);
+        emit TokensPurchased(msg.sender, usdtAmount, _amount , lockTime);
     }
 
-    function resetAuction() external onlyOwner {
-        isPaused = true;
+    // function resetAuction() external onlyOwner {
+    //     isPaused = true;
       
-        currentRoundEnd = 0;
-        currentRoundStart = 0;
-        delete dailyAuctions[1].tokensSold;
-        delete dailyAuctions[2].tokensSold;
-        delete dailyAuctions[3].tokensSold;
-        delete dailyAuctions[4].tokensSold;
-        delete dailyAuctions[5].tokensSold;
-        delete dailyAuctions[6].tokensSold;
-        delete dailyAuctions[7].tokensSold;
-        delete dailyAuctions[2].oversubscribed;
-        delete dailyAuctions[1].oversubscribed;
-        delete dailyAuctions[3].oversubscribed;
-        delete dailyAuctions[4].oversubscribed;
-        delete dailyAuctions[5].oversubscribed;
-        delete dailyAuctions[7].oversubscribed;
-        delete dailyAuctions[6].oversubscribed;
-        // delete dailyAuctions[1].bonusMultiplier;
-        // delete dailyAuctions[2].bonusMultiplier;
-        // delete dailyAuctions[3].bonusMultiplier;
-        // delete dailyAuctions[4].bonusMultiplier;
-        // delete dailyAuctions[5].bonusMultiplier;
-        // delete dailyAuctions[6].bonusMultiplier;
-        // delete dailyAuctions[7].bonusMultiplier;
-    }
+    //      rounds[currentRound].roundEnd = 0;
+    //      rounds[currentRound].roundEnd = 0;
+    //     delete dailyAuctions[1].tokensSold;
+    //     delete dailyAuctions[2].tokensSold;
+    //     delete dailyAuctions[3].tokensSold;
+    //     delete dailyAuctions[4].tokensSold;
+    //     delete dailyAuctions[5].tokensSold;
+    //     delete dailyAuctions[6].tokensSold;
+    //     delete dailyAuctions[7].tokensSold;
+    //     delete dailyAuctions[2].oversubscribed;
+    //     delete dailyAuctions[1].oversubscribed;
+    //     delete dailyAuctions[3].oversubscribed;
+    //     delete dailyAuctions[4].oversubscribed;
+    //     delete dailyAuctions[5].oversubscribed;
+    //     delete dailyAuctions[7].oversubscribed;
+    //     delete dailyAuctions[6].oversubscribed;
+
+    // }
 
     function auctionStatus(bool status) external onlyOwner {
         isPaused = status;
+        emit  AuctionStatus(msg.sender , status , block.timestamp);
     }
+
+    event AuctionStatus(address caller , bool status , uint256 time);
 
     function calculateTokenAmount(
         uint256 _usdtAmount) external view returns (uint256) {
         return (_usdtAmount * (10 ** 18)) / tokenPrice;
     }
 
-    function getDailyAuction(
-        uint256 _currentDay ) external view returns (uint256, uint256, uint256) {
-        Auction memory auction = dailyAuctions[_currentDay];
-        return (
-            auction.tokensDaily,
-            auction.tokensSold,
-            auction.bonusMultiplier
-        );
+    function getDailyAuction(uint256 roundNumber, uint256 day) external view returns ( uint256) {
+        Round storage round = rounds[roundNumber];
+        Auction memory auction = round.dailyAuctions[day];
+         return ( auction.tokensSold);
+        // return (auction.tokensDaily, auction.tokensSold, auction.bonusMultiplier);
     }
-//event add 
+
     function claimReward(
         address user,
-        uint256 _usdtAmount) external auctionEnded returns (bool) {
+        uint256 _usdtAmount) external auctionEnded  {
         require(
             userDetail[user].reward > 0 &&
                 _usdtAmount <= userDetail[user].reward,
@@ -971,10 +953,20 @@ contract ProtonAuction is Ownable {
             PROTON.transfer(user, _usdtAmount),
             "Proton token transfer failed"
         );
-        return true;
+       emit claimreward (user ,  userDetail[user].reward , _usdtAmount , block.timestamp );
     }
 
     function remainingToken() internal view returns(uint){
             return PROTON.balanceOf(address(this));
     }
+
+    function isTokenValid(IERC20 contractAddress) internal view returns (bool) {
+        for (uint256 i = 0; i < token.length; i++) {
+            if (token[i] == contractAddress) {
+            return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -1,0 +1,217 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					}
+				],
+				"name": "checkTimelock",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					}
+				],
+				"name": "checkWhitelists",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "getUserType",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "isRegistered",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "paused",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interfaces implemented by the token contract to be called by the TransferRestrictions contract",
+			"kind": "dev",
+			"methods": {
+				"balanceOf(address)": {
+					"params": {
+						"account": "The address to get the token balance of"
+					},
+					"returns": {
+						"_0": "uint256 representing the token balance for the account"
+					}
+				},
+				"checkTimelock(address,uint256,uint256)": {
+					"params": {
+						"_address": "the address to retrieve the data from",
+						"amount": "the amount to send",
+						"balance": "the token balance of the sending account"
+					},
+					"returns": {
+						"_0": "true if user has sufficient unlocked token to transfer the requested amount, false if not"
+					}
+				},
+				"checkWhitelists(address,address)": {
+					"params": {
+						"from": "The address sending tokens.",
+						"to": "The address receiving tokens."
+					},
+					"returns": {
+						"_0": "true if both accounts are whitelisted, false if not"
+					}
+				},
+				"paused()": {
+					"returns": {
+						"_0": "true if contract is paused, false if unpaused"
+					}
+				}
+			},
+			"title": "IERC1404Validators",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"balanceOf(address)": {
+					"notice": "Returns the token balance for an account"
+				},
+				"checkTimelock(address,uint256,uint256)": {
+					"notice": "Determine if a users tokens are locked preventing a transfer"
+				},
+				"checkWhitelists(address,address)": {
+					"notice": "Determine if sender and receiver are whitelisted, return true if both accounts are whitelisted"
+				},
+				"paused()": {
+					"notice": "Returns a boolean indicating the paused state of the contract"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"ERC1404/Restriction/restriction_flatten.sol": "IERC1404Validators"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"ERC1404/Restriction/restriction_flatten.sol": {
+			"keccak256": "0x5a7cab92b4c77197654d98936d88e6d7128cb80d5f7043755746fd327deea251",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://a2768c4aa02d1d74b5f1b05b5924e459a3689dd3b2e6120efce44a700e271c8a",
+				"dweb:/ipfs/QmfXuw3SeQjbQQys1A6TPTLtDayTVkdEQvihtJxdhvKr6P"
+			]
+		}
+	},
+	"version": 1
+}

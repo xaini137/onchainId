@@ -1,0 +1,58 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getSuccessCode",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"ERC1404/updated1404_flattened.sol": "IERC1404getSuccessCode"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"ERC1404/updated1404_flattened.sol": {
+			"keccak256": "0xde9411a3019b6bb1c4c44b959bd79df1fda519d4c1f4178cd6f5a185b2295883",
+			"urls": [
+				"bzz-raw://24579ecdf26491853c937aaee9f226b10f7901e5cd699ebc12eb8c2b60571c6b",
+				"dweb:/ipfs/QmPkuVnucp3u1x5wjzo7z2c3H17hYnTUxRVBAKZMQ3WEoV"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,171 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "detectTransferFromRestriction",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "detectTransferRestriction",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "restrictionCode",
+						"type": "uint8"
+					}
+				],
+				"name": "messageForTransferRestriction",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"detectTransferFromRestriction(address,address,address,uint256)": {
+					"details": "Overwrite with your custom transfer restriction logic",
+					"params": {
+						"from": "Source of funds address",
+						"sender": "Transaction sending address",
+						"to": "Receiving address",
+						"value": "Amount of tokens being transferred"
+					},
+					"returns": {
+						"_0": "Code by which to reference message for rejection reasoning"
+					}
+				},
+				"detectTransferRestriction(address,address,uint256)": {
+					"details": "Overwrite with your custom transfer restriction logic",
+					"params": {
+						"from": "Sending address",
+						"to": "Receiving address",
+						"value": "Amount of tokens being transferred"
+					},
+					"returns": {
+						"_0": "Code by which to reference message for rejection reasoning"
+					}
+				},
+				"messageForTransferRestriction(uint8)": {
+					"details": "Overwrite with your custom message and restrictionCode handling",
+					"params": {
+						"restrictionCode": "Identifier for looking up a message"
+					},
+					"returns": {
+						"_0": "Text showing the restriction's reasoning"
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"detectTransferFromRestriction(address,address,address,uint256)": {
+					"notice": "Detects if a transferFrom will be reverted and if so returns an appropriate reference code"
+				},
+				"detectTransferRestriction(address,address,uint256)": {
+					"notice": "Detects if a transfer will be reverted and if so returns an appropriate reference code"
+				},
+				"messageForTransferRestriction(uint8)": {
+					"notice": "Returns a human-readable message for a given restriction code"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"ERC1404/Restriction/restriction_flatten.sol": "IERC1404"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"ERC1404/Restriction/restriction_flatten.sol": {
+			"keccak256": "0x5a7cab92b4c77197654d98936d88e6d7128cb80d5f7043755746fd327deea251",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://a2768c4aa02d1d74b5f1b05b5924e459a3689dd3b2e6120efce44a700e271c8a",
+				"dweb:/ipfs/QmfXuw3SeQjbQQys1A6TPTLtDayTVkdEQvihtJxdhvKr6P"
+			]
+		}
+	},
+	"version": 1
+}

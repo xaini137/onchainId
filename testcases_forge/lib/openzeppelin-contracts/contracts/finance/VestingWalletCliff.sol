@@ -17,8 +17,8 @@ abstract contract VestingWalletCliff is VestingWallet {
     error InvalidCliffDuration(uint64 cliffSeconds, uint64 durationSeconds);
 
     /**
-     * @dev Sets the sender as the initial owner, the beneficiary as the pending owner, the start timestamp, the
-     * vesting duration and the duration of the cliff of the vesting wallet.
+     * @dev Set the duration of the cliff, in seconds. The cliff starts vesting schedule (see {VestingWallet}'s
+     * constructor) and ends `cliffSeconds` later.
      */
     constructor(uint64 cliffSeconds) {
         if (cliffSeconds > duration()) {
